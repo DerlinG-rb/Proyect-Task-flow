@@ -9,53 +9,55 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // TODO(sesion-04): borra la línea de abajo y descomenta el bloque completo.
-        //return response()->json([]);
-        return TaskResource::collection(Task::all());
+        // TODO(sesion-05): borra la línea de abajo y descomenta el bloque completo.
+        //return TaskResource::collection(Task::all());
+         return TaskResource::collection($request->user()->tasks);
     }
 
     public function store(Request $request)
     {
-        // TODO(sesion-04): borra la línea de abajo y descomenta el bloque completo.
-        //return response()->json(null, 501);
-         $validated = $request->validate([
-             'title' => 'required|string|max:255',
-             'description' => 'nullable|string',
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'status' => 'in:pendiente,en_progreso,completada',
-            'user_id' => 'required|exists:users,id',
         ]);
-        
-        $task = Task::create($validated);
+
+        // TODO(sesion-05): borra la línea de abajo y descomenta el bloque completo.
+        //$task = Task::create($validated);
+        $task = $request->user()->tasks()->create($validated);
         return new TaskResource($task);
     }
 
-    public function show(Task $task)
+    public function show(Request $request, $id)
     {
-        // TODO(sesion-04): borra la línea de abajo y descomenta el bloque completo.
-        //return response()->json(null, 501);
-         return new TaskResource($task);
+        // TODO(sesion-05): borra la línea de abajo y descomenta la línea real.
+        //$task = Task::findOrFail($id);
+        $task = $request->user()->tasks()->findOrFail($id);
+        return new TaskResource($task);
     }
 
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $id)
     {
-        // TODO(sesion-04): borra la línea de abajo y descomenta el bloque completo.
-        //return response()->json(null, 501);
-         $validated = $request->validate([
-             'title' => 'sometimes|string|max:255',
-             'description' => 'nullable|string',
-             'status' => 'in:pendiente,en_progreso,completada',
+        $validated = $request->validate([
+            'title' => 'sometimes|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'in:pendiente,en_progreso,completada',
         ]);
-        
+
+        // TODO(sesion-05): borra la línea de abajo y descomenta la línea real.
+        //$task = Task::findOrFail($id);
+        $task = $request->user()->tasks()->findOrFail($id);
         $task->update($validated);
         return new TaskResource($task);
     }
 
-    public function destroy(Task $task)
+    public function destroy(Request $request, $id)
     {
-        // TODO(sesion-04): borra la línea de abajo y descomenta el bloque completo.
-        //return response()->json(null, 501);
+        // TODO(sesion-05): borra la línea de abajo y descomenta la línea real.
+        //$task = Task::findOrFail($id);
+        $task = $request->user()->tasks()->findOrFail($id);
         $task->delete();
         return response()->json(null, 204);
     }
