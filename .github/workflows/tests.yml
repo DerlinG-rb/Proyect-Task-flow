@@ -1,0 +1,20 @@
+name: tests
+
+on: [push, pull_request]
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # TODO(sesion-07): borra el step de abajo y descomenta el bloque completo,
+      # que instala PHP, las dependencias, prepara el .env y corre los feature
+      # tests (los de la Sesión 4, adaptados en la Sesión 5) automáticamente en cada push.
+      - run: 'echo "TODO(sesion-07): reemplaza este workflow para correr los tests automáticamente."'
+      # - uses: shivammathur/setup-php@v2
+      #   with:
+      #     php-version: '8.2'
+      # - run: composer install --no-interaction --prefer-dist
+      # - run: cp .env.example .env
+      # - run: php artisan key:generate
+      # - run: php artisan test
